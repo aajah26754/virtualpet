@@ -1,34 +1,73 @@
-<%- include('partials/header', { user: user }) %>
-<h3>Profile</h3>
-<p><%= user.username %>'s Profile</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
 
-<h2>Upload file</h2>
-<form method="post" action="/profile/upload" enctype="multipart/form-data">
-  <input type="file" name="file" />
-  <button type="submit">Upload</button>
-</form>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
 
-<h3>Recent uploads</h3>
+        #hungerBarContainer {
+            width: 300px;
+            height: 30px;
+            border: 1px solid #000;
+            margin-bottom: 20px;
+        }
 
-<% if (!uploads || uploads.length === 0) { %>
-  <p>No uploads yet.</p>
-<% } else { %>
-  <ul>
-    <% uploads.forEach(function(u){ %>
-      <li>
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
-          <div style="width:120px; height:120px;">
-            <a href="/uploads/<%= encodeURIComponent(u.filename) %>" target="_blank" rel="noopener">
-              <img src="/uploads/<%= encodeURIComponent(u.filename) %>" alt="<%= u.filename %>"
-                   style="max-width:120px; max-height:120px;" />
-            </a>
-          </div>
-            <div><%= u.filename %></div>
-            <div><%= u.createdAt %></div>
-          </div>
-      </li>
-    <% }) %>
-  </ul>
-<% } %>
+        #hungerBar {
+            height: 100%;
+            background-color: #ffd3f9;
+            width: 100%;
+            transition: width 0.3s ease;
+        }
 
-<%- include('partials/footer') %>
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #ffd3f9;
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        button:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hey, I'm Beyoncé</h1>
+
+    <img src="/img/dog.png" alt="Dog" width="200">
+
+    <br>
+
+    <div id="hungerBarContainer">
+        <div id="hungerBar"></div>
+    </div>
+
+    <button id="feedButton">Feed</button>
+
+    <a href="/logout">
+        <button>Log Out</button>
+    </a>
+
+    <!-- IMPORTANT: load JS LAST -->
+    <script src="/js/profile.js"></script>
+</body>
+</html>
