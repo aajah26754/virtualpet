@@ -27,15 +27,15 @@ app.use(sessionMiddleware);
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/login'));
 app.use('/profile', require('./routes/profile'));
-app.use('/sockets', require('./routes/sockets'));
+app.use('/adoption', require('./routes/adoption'));
 app.use('/api', require('./routes/api/users'));
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/uploads', express.static(path.join(__dirname, 'data', 'uploads')));
 
-app.get('/sockets', (req, res) => {
-  res.render('sockets', { user: req.session.user || null });
+app.get('/adoption', (req, res) => {
+  res.render('adoption', { user: req.session.user || null });
 })
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
