@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const logger = require('./modules/logger');
 const sessionMiddleware = require('./middleware/session');
-const socketServer = require('./modules/socketServer');
+const socketserver = require('./modules/socketserver');
 
 const dbDir = path.join(__dirname, 'data');
 if (!fs.existsSync(dbDir)) {
@@ -27,15 +27,15 @@ app.use(sessionMiddleware);
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/login'));
 app.use('/profile', require('./routes/profile'));
-app.use('/adoption', require('./routes/adoption'));
+app.use('/adopt', require('./routes/adopt'));
 app.use('/api', require('./routes/api/users'));
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/uploads', express.static(path.join(__dirname, 'data', 'uploads')));
 
-app.get('/adoption', (req, res) => {
-  res.render('adoption', { user: req.session.user || null });
+app.get('/adopt', (req, res) => {
+  res.render('adopt', { user: req.session.user || null });
 })
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
@@ -50,4 +50,4 @@ const server = app.listen(PORT, () => {
 });
 
 
-socketServer.attach(server, sessionMiddleware);
+socketserver.attach(server, sessionMiddleware);

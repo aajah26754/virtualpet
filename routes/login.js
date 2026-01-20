@@ -31,7 +31,7 @@ router.get('/login', async (req, res) => {
       // updates with latest info
       req.session.user = { id: userRow.id, username: userRow.username, token: tokenData };
 
-      return res.redirect('/profile');
+      return res.redirect('/adopt');
     } catch (err) {
       console.error('[login] token processing error:', err && err.message);
       return res.redirect('/login');
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
     const user = await nativeAuth.validateLogin(username, password);
     if (!user) return res.render('login', { error: 'Invalid username or password', authUrl: formbarClient.getAuthUrl() });
     req.session.user = user;
-    return res.redirect('/profile');
+    return res.redirect('/adopt');
   } catch (err) {
     console.error('[login] native login error:', err && err.message);
     return res.render('login', { error: 'An error occurred during login', authUrl: formbarClient.getAuthUrl() });
@@ -64,7 +64,7 @@ router.post('/register', async (req, res) => {
   try {
     const user = await nativeAuth.registerUser(username, password);
     req.session.user = user; 
-    return res.redirect('/profile');
+    return res.redirect('/adopt');
   } catch (err) {
     console.error('[register] error:', err && err.message);
     return res.render('login', { error: 'Registration failed', authUrl: formbarClient.getAuthUrl() });

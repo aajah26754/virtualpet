@@ -1,73 +1,98 @@
+<%- include('partials/header', { user: null }) %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 50px;
-        }
-
-        #hungerBarContainer {
-            width: 300px;
-            height: 30px;
-            border: 1px solid #000;
-            margin-bottom: 20px;
-        }
-
-        #hungerBar {
-            height: 100%;
-            background-color: #ffd3f9;
-            width: 100%;
-            transition: width 0.3s ease;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            background-color: #ffd3f9;
-            color: black;
-            margin-bottom: 10px;
-        }
-
-        button:disabled {
-            background-color: grey;
-            cursor: not-allowed;
-        }
-
-        a {
-            text-decoration: none;
-            color: black;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Profile</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #222;
+        color: white;
+        text-align: center;
+        padding-top: 50px;
+    }
+    .bar-container {
+        width: 300px;
+        height: 30px;
+        background: #444;
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 20px auto;
+        border: 2px solid #666;
+    }
+    .bar-fill {
+        height: 100%;
+        background: linear-gradient(to right, #0086d3, #240cff);
+        width: 100%;
+        transition: width 0.3s ease;
+    }
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background: #28a745;
+        color: white;
+    }
+    button:disabled {
+        background: #555;
+        cursor: not-allowed;
+    }
+</style>
 </head>
-
 <body>
-    <h1>Hey, I'm Beyoncé</h1>
 
-    <img src="/img/dog.png" alt="Dog" width="200">
+<h1>Mitten's Hunger Bar</h1>
+<div class="bar-container">
+    <div class="bar-fill" id="hungerFill"></div>
+</div>
+<p id="hungerText">Hunger: 100%</p>
+<button id="eatBtn">Eat Food</button>
 
-    <br>
+<script>
+(function() {
+    const hungerFill = document.getElementById('hungerFill');
+    const hungerText = document.getElementById('hungerText');
+    const eatBtn = document.getElementById('eatBtn');
 
-    <div id="hungerBarContainer">
-        <div id="hungerBar"></div>
-    </div>
+    let hunger = 100; 
+    const decayRate = 1; 
+    const tickInterval = 1000; 
 
-    <button id="feedButton">Feed</button>
+    function updateBar() {
+        hunger = Math.max(0, Math.min(100, hunger)); 
+        hungerFill.style.width = hunger + '%';
+        hungerText.textContent = `Hunger: ${hunger}%`;
+        eatBtn.disabled = hunger >= 100;
+    }
 
-    <a href="/logout">
-        <button>Log Out</button>
-    </a>
 
-    <!-- IMPORTANT: load JS LAST -->
-    <script src="/js/profile.js"></script>
+    function decayHunger() {
+        hunger -= decayRate;
+        updateBar();
+    }
+
+
+    eatBtn.addEventListener('click', () => {
+        hunger += 20; 
+        updateBar();
+    });
+
+
+    setInterval(() => {
+        if (hunger > 0) {
+            decayHunger();
+        }
+    }, tickInterval);
+
+
+    updateBar();
+})();
+</script>
+
 </body>
 </html>
+
