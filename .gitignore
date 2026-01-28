@@ -1,6 +1,5 @@
 node_modules/
-data/uploads/
-data/*.sqlite
+
 .env
 logs/
 .DS_Store
