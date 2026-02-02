@@ -5,7 +5,7 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 router.get('/', isAuthenticated, async (req, res) => {
   const user = req.session.user;
   
-  res.render('profile', { user});
+  res.render('profile', {user});
 });
 
 

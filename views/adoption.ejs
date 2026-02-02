@@ -1,0 +1,7 @@
+<%- include('partials/header', { user: user }) %>
+
+<h1>Adopt here!</h1>
+
+<p><a href="/">Back to Home</a> | <% if (user) { %>Logged in as <b><%= user.username %></b><% } else { %>Not logged in<% } %></p>
+
+<%- include('partials/footer') %>
