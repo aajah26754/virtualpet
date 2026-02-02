@@ -5,12 +5,22 @@ const fs = require('fs');
 const logger = require('./modules/logger');
 const sessionMiddleware = require('./middleware/session');
 const socketserver = require('./modules/socketserver');
+const sqlite3 = require('sqlite3');
+
 
 const dbDir = path.join(__dirname, 'data');
 if (!fs.existsSync(dbDir)) {
   fs.mkdirSync(dbDir, { recursive: true });
   logger.info(`Created database directory: ${dbDir}`);
 }
+
+const db = new sqlite3.Database('data/Database.db', (err) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('Connected to the data/Database.db!')
+    }
+});
 
 const app = express();
 const PORT = process.env.PORT || 3000;
