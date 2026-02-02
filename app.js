@@ -37,6 +37,7 @@ app.use(sessionMiddleware);
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/login'));
 app.use('/profile', require('./routes/profile'));
+app.use('/chat', require('./routes/chat'));
 app.use('/adopt', require('./routes/adopt'));
 app.use('/api', require('./routes/api/users'));
 
@@ -47,6 +48,45 @@ app.use('/adopt', express.static(path.join(__dirname, 'data', 'adopt')));
 app.get('/adopt', (req, res) => {
   res.render('adopt', { user: req.session.user || null });
 })
+
+app.post('/adopt', (req, res) => { 
+  const { owner, name, type } = req.body;
+
+  if (owner && name && type) {
+    const filePath = path.join(__dirname, 'data', 'adopt', `${owner}-${name}.txt`);
+    fs.writeFileSync(filePath, `Owner: ${owner}\nName: ${name}\nType: ${type}`);
+    logger.info(`New pet adopted: ${owner} - ${name} (${type})`);
+  }
+
+  res.redirect('/adopt');
+}); 
+
+
+const inventory = require('./modules/inventory');
+
+app.get('/inventory', isAuthenticated, async (req, res) => {
+  const pets = await inventory.getInventoryForUser(req.session.user.username);
+
+  res.render('inventory', {
+    user: req.session.user,
+    pets
+  });
+});
+
+app.post('/inventory', isAuthenticated, async (req, res) => {
+  const { owner, name, type } = req.body;
+
+  if (owner && name && type) {
+    await inventory.addItemToInventory(
+      req.session.user.username,
+      { owner, name, type }
+    );
+  }
+
+  res.redirect('/inventory');
+});
+
+
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   if (username === 'username' && password === 'password') {
@@ -54,6 +94,9 @@ app.post('/login', (req, res) => {
     return res.redirect('/profile');
   }
 });
+app.get('/chat', (req, res) => {
+  res.render('chat', { user: req.session.user || null });
+})
 
 const server = app.listen(PORT, () => {
   logger.info(`Server started on port ${PORT}`);

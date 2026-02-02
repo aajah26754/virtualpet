@@ -10,7 +10,7 @@ const { open } = require('sqlite');
   const db = await open({ filename: dbFile, driver: sqlite3.Database });
   await db.exec(`
     CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT UNIQUE,
       passwordHash TEXT,
       formbarId TEXT,
@@ -24,6 +24,7 @@ const { open } = require('sqlite');
 	    PRIMARY KEY("id" AUTOINCREMENT),
 	    FOREIGN KEY("userId") REFERENCES "users"("id") ON DELETE SET NULL
     );
+
   `);
   console.log('Database initialized at', dbFile);
   await db.close();

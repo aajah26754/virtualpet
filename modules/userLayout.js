@@ -6,7 +6,7 @@ function layoutUser(req) {
     id: u ? u.id : null,
     nav: [
       { href: '/', label: 'Home' },
-      { href: '/sockets', label: 'Sockets' },
+      { href: '/chat', label: 'chat' },
       { href: '/profile', label: 'Profile' }
     ]
   };

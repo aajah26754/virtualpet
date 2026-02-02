@@ -1,0 +1,41 @@
+<%- include('partials/header', { user: user }) %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory</title>
+</head>
+<body>
+
+  <h1><%= user.username %>'s Inventory</h1>
+
+  <div class="inventory-container">
+    <% if (!pets || pets.length === 0) { %>
+      <p class="empty">No pets yet. Go adopt one!</p>
+    <% } %>
+  
+    <% pets.forEach((pet) => { %>
+      <div class="pet-card">
+        <h3><%= pet.name %></h3>
+        <p>Type: <%= pet.type %></p>
+        <p>Owner: <%= pet.owner %></p>
+      </div>
+    <% }) %>
+  </div>
+  
+
+<hr>
+
+<h2>Add Item to Inventory</h2>
+
+<form method="POST" action="/inventory" id="addPetForm">
+  <input type="text" name="owner" placeholder="Owner" required />
+  <input type="text" name="name" placeholder="Item" required />
+  <input type="text" name="type" placeholder="Type" required />
+  <button type="submit">Add Pet</button>
+</form>
+
+<script src="/public/js/inventory.js"></script>
+</body>
+</html>

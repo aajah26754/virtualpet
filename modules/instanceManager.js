@@ -1,6 +1,5 @@
 const rooms = new Map();
 
-// manages chat rooms and their users
 function createRoom(name) {
   if (!rooms.has(name)) rooms.set(name, { users: new Set(), createdAt: Date.now() });
   return rooms.get(name);

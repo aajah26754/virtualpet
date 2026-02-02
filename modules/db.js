@@ -4,7 +4,6 @@ const path = require('path');
 const fs = require('fs');
 const DATABASE_FILE = process.env.DATABASE_FILE || path.join(__dirname, '..', 'data', 'database.sqlite');
 
-// makes sure theres only one connection to the database
 let dbPromise = null;
 async function getDb() {
   if (!dbPromise) {
@@ -27,7 +26,6 @@ async function getDb() {
   return dbPromise;
 }
 
-// exports database functions
 module.exports = {
   get: async (sql, ...params) => {
     const db = await getDb();
