@@ -6,6 +6,7 @@ const logger = require('./modules/logger');
 const sessionMiddleware = require('./middleware/session');
 const socketserver = require('./modules/socketserver');
 const sqlite3 = require('sqlite3');
+const isAuthenticated = require('./middleware/isAuthenticated');
 
 
 const dbDir = path.join(__dirname, 'data');
@@ -97,6 +98,10 @@ app.post('/login', (req, res) => {
 app.get('/chat', (req, res) => {
   res.render('chat', { user: req.session.user || null });
 })
+
+app.get('/world', (req, res) => {
+  res.render('world', { user: req.session.user || null });
+});
 
 const server = app.listen(PORT, () => {
   logger.info(`Server started on port ${PORT}`);

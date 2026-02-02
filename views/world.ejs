@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+<style>
+    .locBut {
+        width: 150px;
+        height: 150px;
+        background-color: #172222;
+        border: solid 1px #4d664d;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        padding: 0px;
+        overflow: hidden;
+    }
+
+    #dumpstuff {
+        position: fixed;
+        left: 20%;
+    }
+
+    #townstuff {
+        position: fixed;
+        right: 20%;
+    }
+
+    #cityHallstuff {
+        position: fixed;
+        bottom: 20%
+    }
+
+</style>
+<body>
+    <div class="maploc" id="dumpstuff">
+        <button id="dump" class="locBut"></button>
+        <div id="dumpLabel">Dump</div>
+    </div>
+
+    <div class="maploc" id="townstuff">
+        <button id="town" class="locBut"></button>
+        <div id="townLabel">Town</div>
+    </div>
+
+    <div class="maploc" id="'cityHallstuff">
+        <button id="cityHall" class="locBut"></button>
+        <div id="cityLabel">City Hall</div>
+    </div>
+</body>
+<%- include('partials/footer') %>
