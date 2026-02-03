@@ -4,45 +4,30 @@
 <head>
 <meta charset="UTF-8">
 <title>Profile</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #222;
-        color: white;
-        text-align: center;
-        padding-top: 50px;
-    }
-    .bar-container {
-        width: 300px;
-        height: 30px;
-        background: #444;
-        border-radius: 5px;
-        overflow: hidden;
-        margin: 20px auto;
-        border: 2px solid #666;
-    }
-    .bar-fill {
-        height: 100%;
-        background: linear-gradient(to right, #0086d3, #240cff);
-        width: 100%;
-        transition: width 0.3s ease;
-    }
-    button {
-        padding: 10px 20px;
-        margin: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        background: #28a745;
-        color: white;
-    }
-    button:disabled {
-        background: #555;
-        cursor: not-allowed;
-    }
-</style>
 </head>
+<style>
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(to right, #0086d3, #240cff);
+      width: 100%;
+      transition: width 0.3s ease;
+  }
+
+  .bar-container {
+      width: 300px;
+      height: 30px;
+      background: #444;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 20px auto;
+      border: 2px solid #666;
+  }
+  
+  button:disabled {
+      background: #555;
+      cursor: not-allowed;
+  }
+</style>
 <body>
 
 <h1>Mitten's Hunger Bar</h1>
