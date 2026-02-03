@@ -1,4 +1,12 @@
-<%- include('partials/header') %>
+<% if(loc=='town') { %>
+    <%- include('partials/header') %>
+<% } else if(loc=='dump') { %>
+    <%- include('partials/dumpheader') %>
+<% } else { %>
+    <%- include('partials/cityheader') %>
+<% } %>
+
+
 <style>
     .locBut {
         width: 150px;
@@ -30,17 +38,17 @@
 </style>
 <body>
     <div class="maploc" id="dumpstuff">
-        <button id="dump" class="locBut"></button>
+        <a href="/dworld"><button id="dump" class="locBut"></button></a>
         <div id="dumpLabel">Dump</div>
     </div>
 
     <div class="maploc" id="townstuff">
-        <button id="town" class="locBut"></button>
+        <a href="/tworld"><button id="town" class="locBut"></button></a>
         <div id="townLabel">Town</div>
     </div>
 
     <div class="maploc" id="'cityHallstuff">
-        <button id="cityHall" class="locBut"></button>
+        <a href="/cworld"><button id="cityHall" class="locBut"></button></a>
         <div id="cityLabel">City Hall</div>
     </div>
 </body>

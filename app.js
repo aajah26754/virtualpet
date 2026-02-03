@@ -99,8 +99,20 @@ app.get('/chat', (req, res) => {
   res.render('chat', { user: req.session.user || null });
 })
 
-app.get('/world', (req, res) => {
-  res.render('world', { user: req.session.user || null });
+app.get('/tworld', (req, res) => {
+  res.render('world', {user: req.session.user || null, loc : 'town' });
+});
+
+app.get('/dworld', (req, res) => {
+  res.render('world', {user: req.session.user || null, loc : 'dump'});
+});
+
+app.get('/cworld', (req, res) => {
+  res.render('world', {user: req.session.user || null, loc : 'city'});
+});
+
+app.get('/dump', (req, res) => {
+  res.render('dump', { user: req.session.user || null });
 });
 
 const server = app.listen(PORT, () => {
