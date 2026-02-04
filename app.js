@@ -65,7 +65,7 @@ app.post('/adopt', (req, res) => {
 
 const inventory = require('./modules/inventory');
 
-app.get('/inventory',  async (req, res) => {
+app.get('/inventory', isAuthenticated, async (req, res) => {
   const pets = await inventory.getInventoryForUser(req.session.user.username);
 
   res.render('inventory', {
@@ -74,7 +74,7 @@ app.get('/inventory',  async (req, res) => {
   });
 });
 
-app.post('/inventory',  async (req, res) => {
+app.post('/inventory', isAuthenticated, async (req, res) => {
   const { owner, name, type } = req.body;
 
   if (owner && name && type) {
