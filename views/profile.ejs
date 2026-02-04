@@ -1,299 +1,369 @@
 <%- include('partials/header', { user: null }) %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Profile</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #222;
-        color: white;
-        text-align: center;
-        padding-top: 50px;
-    }
-    .bar-container {
-        width: 300px;
-        height: 30px;
-        background: #444;
-        border-radius: 5px;
-        overflow: hidden;
-        margin: 20px auto;
-        border: 2px solid #666;
-    }
-    .bar-fill {
-        height: 100%;
-        background: linear-gradient(to right, #0086d3, #240cff);
-        width: 100%;
-        transition: width 0.3s ease;
-    }
-    button {
-        padding: 10px 20px;
-        margin: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        background: #28a745;
-        color: white;
-    }
-    button:disabled {
-        background: #555;
-        cursor: not-allowed;
-    }
-</style>
-</head>
-<body>
+    <!DOCTYPE html>
+    <html lang="en">
 
-<h1>Mitten's Hunger Bar</h1>
-<div class="bar-container">
-    <div class="bar-fill" id="hungerFill"></div>
-</div>
-<p id="hungerText">Hunger: 100%</p>
-<p id="goldText">Gold: 0</p>
-<button id="eatBtn">Eat Food (100 Gold)</button>
-<button id="getCoins">Get Coins</button>
-<button id="startGame">Start Game</button>
-<div id="gameBox">
-    <div id="score">Score: 0</div>
-    <div id="mistake">Mistakes: 0</div>
-    <div id="timer">Time Left: 20</div>
-    <div id="directionBox">Direction: </div>
-</div>
-
-<script>
-let gold = 0;
-
-(function() {
-    const hungerFill = document.getElementById('hungerFill');
-    const hungerText = document.getElementById('hungerText');
-    const eatBtn = document.getElementById('eatBtn');
-    const getCoinsBtn = document.getElementById('getCoins');
-    const startGameBtn = document.getElementById('startGame');
-
-    
-    const goldText = document.getElementById('goldText');
-
-    let hunger = 100; 
-    const tickInterval = 1500; 
-    
-
-    function updateBar() {
-        hunger = Math.max(0, Math.min(100, hunger)); 
-        hungerFill.style.width = hunger + '%';
-        hungerText.textContent = `Hunger: ${hunger}%`;
-        eatBtn.disabled = hunger >= 100;
-    }
-
-    function getCoins() {
-        gold += 10; 
-        goldText.textContent = `Gold: ${gold}`;
-        console.log(`You have ${gold} gold.`);
-    }
-
-
-    function decayHunger() {
-        hunger -= Math.floor(Math.random() * 5);
-        updateBar();
-    }
-
-
-    eatBtn.addEventListener('click', () => {
-        if (gold >= 100) {
-            hunger += 10; 
-            updateBar();
-            gold -= 100;
-            goldText.textContent = `Gold: ${gold}`;
-        }
-    });
-
-    startGameBtn.addEventListener('click', () => {
-        gamerequested = true;
-    });
-
-    getCoinsBtn.addEventListener('click', getCoins);
-
-    setInterval(() => {
-        if (hunger > 0) {
-            decayHunger();
-        }
-    }, tickInterval);
-
-
-    updateBar();
-})();
-var gamerunning = false;
-var gamerequested = false;
-
-
-setInterval(() => {
-    if (gamerequested && !gamerunning) {
-        var scoreBox = document.getElementById('score');
-        var mistakeBox = document.getElementById('mistake');
-        const goldBox = document.getElementById('goldText');
-        const timerinterval = setInterval(timerCount, 1000);
-
-
-        console.log("Game is started.");
-        gamerunning = true;
-        timer = 20
-        score = 0
-        mistake = 0
-        direction = 0
-        
-        directionChange()
-        buttonPressed = false
-
-        onkeydown = function (e) {
-            // checks for W, A, S, D keys being pressed
-            if (e.keyCode == '87') { // W key
-                if (direction == 0 && timer > 0) {
-                    score++
-                    scoreBox.innerHTML = score
-                    directionChange()
-                } else if (timer > 0) {
-                    mistake++
-                    mistakeBox.innerHTML = mistake
-                }
-            } else if (e.keyCode == '65') { // A key
-                if (direction == 3 && timer > 0) {
-                    score++
-                    scoreBox.innerHTML = score
-                    directionChange()
-                } else if (timer > 0) {
-                    mistake++
-                    mistakeBox.innerHTML = mistake
-                }
-            } else if (e.keyCode == '83') { // S key
-                if (direction == 2 && timer > 0) {
-                    score++
-                    scoreBox.innerHTML = score
-                    directionChange()
-                } else if (timer > 0) {
-                    mistake++
-                    mistakeBox.innerHTML = mistake
-                }
-            } else if (e.keyCode == '68') { // D key
-                if (direction == 1 && timer > 0) {
-                    score++
-                    scoreBox.innerHTML = score
-                    directionChange()
-                } else if (timer > 0) {
-                    mistake++
-                    mistakeBox.innerHTML = mistake
-                }
-            } else if (e.keyCode == '81') { // Q key
-                if (direction == 4 && timer > 0) {
-                    score++
-                    scoreBox.innerHTML = score
-                    directionChange()
-                } else if (timer > 0) {
-                    mistake++
-                    mistakeBox.innerHTML = mistake
-                }
-            } else if (e.keyCode == '69') { // E key
-                if (direction == 5 && timer > 0) {
-                    score++
-                    scoreBox.innerHTML = score
-                    directionChange()
-                } else if (timer > 0) {
-                    mistake++
-                    mistakeBox.innerHTML = mistake
-                }
-            } else if (e.keyCode == '70') { // F key
-                if (direction == 6 && timer > 0) {
-                    score++
-                    scoreBox.innerHTML = score
-                    directionChange()
-                } else if (timer > 0) {
-                    mistake++
-                    mistakeBox.innerHTML = mistake
-                }
-            } else if (e.keyCode == '82') { // R key
-                location.reload();
-            } else if (e.keyCode == '82') { // R key
-                location.reload();
-            }
-        }
-
-
-
-
-
-        function timerCount() {
-            // counts the timer down
-            let timerBox = document.getElementById('timer');
-
-            if (timer > 0) {
-                timer -= 1
-                timerBox.innerHTML = timer
-            } else if (timer == 0) {
-                awardGold()
-                score = 0
-                console.log(gamerequested)
-                console.log(gamerunning)
-                clearInterval(timerinterval)
-                gamerequested = false
-                gamerunning = false
-            }
-        }
-
-        function awardGold() {
-            // awards gold to the player
-            let goldText = document.getElementById('goldText');
-            score *= 10
-            gold += score
-            goldText.textContent = `Gold: ${gold}`;
-        }
-
-        function directionChange() {
-            // changes the direction listed
-            let directionBox = document.getElementById('directionBox');
-            w = 0
-            d = 1
-            s = 2
-            a = 3
-            q = 4
-            e = 5
-            f = 6
-            r = 7
-            direction = Math.floor(Math.random() * 7)
-            if (timer > 0) {
-                if (direction == 0) {
-                    directionBox.innerHTML = 'W'
-                } else if (direction == 1) {
-                    directionBox.innerHTML = 'D'
-                } else if (direction == 2) {
-                    directionBox.innerHTML = 'S'
-                } else if (direction == 3) {
-                    directionBox.innerHTML = 'A'
-                } else if (direction == 4) {
-                    directionBox.innerHTML = 'Q'
-                } else if (direction == 5) {
-                    directionBox.innerHTML = 'E'
-                } else if (direction == 6) {
-                    directionBox.innerHTML = 'F'
-                } else if (direction == 7) {
-                    directionBox.innerHTML = 'R'
-                }
+    <head>
+        <meta charset="UTF-8">
+        <title>Profile</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: #222;
+                color: white;
+                text-align: center;
+                padding-top: 50px;
             }
 
+            .TheContainer {
+                align-items: center;
+                display: inline-block;
+                width: 100%;
+            }
 
-        }
-    } else if (gamerunning) {
-        console.log("Game is already running.");
-    } else {
-        console.log("Game not requested.");
-        return;
-    }
-}, 5000);
+            .shopsContainer {
+                margin: 20px 0;
+                text-align: left;
+                width: 20%;
+                z-index: 10;
+            }
 
-if (gamerunning) {
-    
-}
+            .shop {
+                margin: 10px 0;
+                padding: 10px;
+                border: 1px solid #666;
+                border-radius: 5px;
+                background: #333;
+                width: fit-content;
+                z-index: 10;
+            }
 
-</script>
+            .statsContainer {
+                display: block;
+                width: fit-content;
+                margin: 20px auto;
+                text-align: center;
+                z-index: 10;
+            }
 
-</body>
-</html>
+            .bar-container {
+                width: 300px;
+                height: 30px;
+                background: #444;
+                border-radius: 5px;
+                overflow: hidden;
+                margin: 20px auto;
+                border: 2px solid #666;
+            }
 
+            .bar-fill {
+                height: 100%;
+                background: linear-gradient(to right, #0086d3, #240cff);
+                width: 100%;
+                transition: width 0.3s ease;
+            }
+
+            button {
+                padding: 10px 20px;
+                margin: 10px;
+                font-size: 16px;
+                cursor: pointer;
+                border: none;
+                border-radius: 5px;
+                background: #28a745;
+                color: white;
+            }
+
+            button:disabled {
+                background: #555;
+                cursor: not-allowed;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h1>Mitten's Hunger Bar</h1>
+
+        <div class="bar-container">
+            <div class="bar-fill" id="hungerFill"></div>
+        </div>
+        <div class="TheContainer">
+            <div class="shopsContainer">
+                <h2>Shops</h2>
+
+                <div class="shop" data-cost="100">
+                    <h3>Food Shop</h3>
+                    <p>Cost: 100 Gold</p>
+                    <button id="foodBtn">Buy Food</button>
+                </div>
+
+            </div>
+            <div class="statsContainer">
+                <p id="hungerText">Hunger: 100%</p>
+                <p id="goldText">Gold: 0</p>
+                <p id="foodText">Food: 0</p>
+            </div>
+            <button id="eatBtn">Eat Food</button>
+            <button id="getCoins">Get Coins</button>
+            <button id="startGame">Start Game</button>
+        </div>
+
+        <div id="gameBox">
+            <div id="score">Score: 0</div>
+            <div id="mistake">Mistakes: 0</div>
+            <div id="timer">Time Left: 20</div>
+            <div id="directionBox">Direction: </div>
+        </div>
+
+        <script>
+            let gold = 0;
+
+            (function () {
+                const hungerFill = document.getElementById('hungerFill');
+                const hungerText = document.getElementById('hungerText');
+                const eatBtn = document.getElementById('eatBtn');
+                const getCoinsBtn = document.getElementById('getCoins');
+                const startGameBtn = document.getElementById('startGame');
+                const foodBtn = document.getElementById('foodBtn');
+                const goldText = document.getElementById('goldText');
+                
+                let food = 0;
+                let hunger = 100;
+                const tickInterval = 1500;
+
+
+                function updateBar() {
+                    hunger = Math.max(0, Math.min(100, hunger));
+                    hungerFill.style.width = hunger + '%';
+                    hungerText.textContent = `Hunger: ${hunger}%`;
+                    eatBtn.disabled = hunger >= 100;
+                }
+
+                function getCoins() {
+                    gold += 10;
+                    goldText.textContent = `Gold: ${gold}`;
+                    console.log(`You have ${gold} gold.`);
+                }
+
+
+                function decayHunger() {
+                    hunger -= Math.floor(Math.random() * 5);
+                    updateBar();
+                }
+                
+
+                foodBtn.addEventListener('click', () => {
+                    if (gold >= 100) {
+                        gold -= 100;
+                        food += 1;
+                        foodText.textContent = `Food: ${food}`;
+                        goldText.textContent = `Gold: ${gold}`;
+                    }
+                });
+
+                eatBtn.addEventListener('click', () => {
+                    if (food > 0) {
+                        hunger += 10;
+                        updateBar();
+                        food -= 1;
+                        foodText.textContent = `Food: ${food}`;
+                    }
+                });
+
+                startGameBtn.addEventListener('click', () => {
+                    gamerequested = true;
+                });
+
+                getCoinsBtn.addEventListener('click', getCoins);
+
+                setInterval(() => {
+                    if (hunger > 0) {
+                        decayHunger();
+                    }
+                }, tickInterval);
+
+
+                updateBar();
+            })();
+            var gamerunning = false;
+            var gamerequested = false;
+
+
+            setInterval(() => {
+                if (gamerequested && !gamerunning) {
+                    var scoreBox = document.getElementById('score');
+                    var mistakeBox = document.getElementById('mistake');
+                    const goldBox = document.getElementById('goldText');
+                    const timerinterval = setInterval(timerCount, 1000);
+
+
+                    console.log("Game is started.");
+                    gamerunning = true;
+                    timer = 20
+                    score = 0
+                    mistake = 0
+                    direction = 0
+
+                    directionChange()
+                    buttonPressed = false
+
+                    onkeydown = function (e) {
+                        // checks for W, A, S, D keys being pressed
+                        if (e.keyCode == '87') { // W key
+                            if (direction == 0 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = "Score: " + score
+                                directionChange()
+                            } else if (timer > 0) {
+                                mistake++
+                                mistakeBox.innerHTML = "Mistakes: " + mistake
+                            }
+                        } else if (e.keyCode == '65') { // A key
+                            if (direction == 3 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = "Score: " + score
+                                directionChange()
+                            } else if (timer > 0) {
+                                mistake++
+                                mistakeBox.innerHTML = "Mistakes: " + mistake
+                            }
+                        } else if (e.keyCode == '83') { // S key
+                            if (direction == 2 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = "Score: " + score
+                                directionChange()
+                            } else if (timer > 0) {
+                                mistake++
+                                mistakeBox.innerHTML = "Mistakes: " + mistake
+                            }
+                        } else if (e.keyCode == '68') { // D key
+                            if (direction == 1 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = "Score: " + score
+                                directionChange()
+                            } else if (timer > 0) {
+                                mistake++
+                                mistakeBox.innerHTML = "Mistakes: " + mistake
+                            }
+                        } else if (e.keyCode == '81') { // Q key
+                            if (direction == 4 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = "Score: " + score
+                                directionChange()
+                            } else if (timer > 0) {
+                                mistake++
+                                mistakeBox.innerHTML = "Mistakes: " + mistake
+                            }
+                        } else if (e.keyCode == '69') { // E key
+                            if (direction == 5 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = "Score: " + score
+                                directionChange()
+                            } else if (timer > 0) {
+                                mistake++
+                                mistakeBox.innerHTML = "Mistakes: " + mistake
+                            }
+                        } else if (e.keyCode == '70') { // F key
+                            if (direction == 6 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = "Score: " + score
+                                directionChange()
+                            } else if (timer > 0) {
+                                mistake++
+                                mistakeBox.innerHTML = "Mistakes: " + mistake
+                            }
+                        } else if (e.keyCode == '82') { // R key
+                            location.reload();
+                        } else if (e.keyCode == '82') { // R key
+                            location.reload();
+                        }
+                    }
+
+
+
+
+
+                    function timerCount() {
+                        // counts the timer down
+                        let timerBox = document.getElementById('timer');
+
+                        if (timer > 0) {
+                            timer -= 1
+                            timerBox.innerHTML = "Timer: " + timer
+                        } else if (timer == 0) {
+                            awardGold()
+                            score = 0
+                            mistake = 0
+                            scoreBox.innerHTML = "Score: " + score
+                            mistakeBox.innerHTML = "Mistakes: " + mistake
+                            console.log(gamerequested)
+                            console.log(gamerunning)
+                            clearInterval(timerinterval)
+                            gamerequested = false
+                            gamerunning = false
+                        }
+                    }
+
+                    function awardGold() {
+                        // awards gold to the player
+                        let goldText = document.getElementById('goldText');
+                        score -= mistake
+                        if (score < 0) {
+                            score = 0
+                        }
+                        score *= 10
+                        gold += score
+                        goldText.textContent = `Gold: ${gold}`;
+                    }
+
+                    function directionChange() {
+                        // changes the direction listed
+                        let directionBox = document.getElementById('directionBox');
+                        w = 0
+                        d = 1
+                        s = 2
+                        a = 3
+                        q = 4
+                        e = 5
+                        f = 6
+                        r = 7
+                        direction = Math.floor(Math.random() * 7)
+                        if (timer > 0) {
+                            if (direction == 0) {
+                                directionBox.innerHTML = 'W'
+                            } else if (direction == 1) {
+                                directionBox.innerHTML = 'D'
+                            } else if (direction == 2) {
+                                directionBox.innerHTML = 'S'
+                            } else if (direction == 3) {
+                                directionBox.innerHTML = 'A'
+                            } else if (direction == 4) {
+                                directionBox.innerHTML = 'Q'
+                            } else if (direction == 5) {
+                                directionBox.innerHTML = 'E'
+                            } else if (direction == 6) {
+                                directionBox.innerHTML = 'F'
+                            } else if (direction == 7) {
+                                directionBox.innerHTML = 'R'
+                            }
+                        }
+
+
+                    }
+                } else if (gamerunning) {
+                    console.log("Game is already running.");
+                } else {
+                    console.log("Game not requested.");
+                    return;
+                }
+            }, 5000);
+
+            if (gamerunning) {
+
+            }
+
+        </script>
+
+    </body>
+
+    </html>
