@@ -5,7 +5,12 @@
 <p><a href="/">Back to Home</a> | <% if (user) { %>Logged in as <b><%= user.username %></b><% } else { %>Not logged in<% } %></p>
 
 <div>
-  <label>Room: <input id="room" value="general"></label>
+  <label>Room:
+  <select name="general" id="room">
+    <option value="general">General</option>
+    <option value="games">Games</option>
+    <option value="pets">Pets</option>
+  </select></label>
   <button id="join">Join</button>
   <span id="currentRoom"></span>
 </div>

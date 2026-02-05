@@ -27,15 +27,15 @@
 </style>
 <body>
 <nav>
-  <a href="/">Home</a> |
-  <a href="/adopt">Adopt</a> |
-  <a href="/inventory">Inventory</a> |
-  <a href="/tworld">World Map</a> |
+  <a href="/"><button>Home</button></a> |
+  <a href="/adopt"><button>Adopt</button></a> |
+  <a href="/inventory"><button>Inventory</button></a> |
+  <a href="/tworld"><button>World Map</button></a> |
   <% if (user) { %>
-    <a href="/profile">Profile (<%= user.username %>)</a> |
-    <a href="/logout">Logout</a>
+    <a href="/profile"><button>Profile (<%= user.username %>)</button></a> |
+    <a href="/logout"><button>Logout</button></a>
   <% } else { %>
-    <a href="/login">Login</a>
+    <a href="/login"><button>Login</button></a>
   <% } %>
 </nav>
 <hr/>
