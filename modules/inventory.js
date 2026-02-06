@@ -26,7 +26,56 @@ async function addItemToInventory(username, item) {
   writeData(data);
 }
 
+async function removeItemFromInventory(username, item) {
+  const data = readData();
+  if (data[username]) {
+    data[username] = data[username].filter(i => i.name !== item);
+    writeData(data);
+  }
+}
+
+async function addItemFetch(owner, name, type) {
+  const body = new URLSearchParams({
+    owner,
+    name,
+    type,
+    type2: 'add'
+  });
+
+  const res = await fetch('/profile', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString()
+  });
+
+  if (!res.ok) throw new Error('Request failed: ' + res.status);
+  return res; // res.redirected === true if server redirected
+}
+
+async function removeItemFetch(owner, name, type) {
+  const body = new URLSearchParams({
+    owner,
+    name,
+    type,
+    type2: 'remove'
+  });
+
+  const res = await fetch('/profile', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString()
+  });
+
+  if (!res.ok) throw new Error('Request failed: ' + res.status);
+  return res;
+}
+
 module.exports = {
   getInventoryForUser,
-  addItemToInventory
+  addItemToInventory,
+  removeItemFromInventory,
+  addItemFetch,
+  removeItemFetch
 };
