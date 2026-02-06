@@ -1,4 +1,4 @@
-<%- include('partials/header', { user: null }) %>
+<%- include('partials/header', { user: user }) %>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -94,8 +94,11 @@
                 <div class="shop" data-cost="100">
                     <h3>Food Shop</h3>
                     <p>Cost: 100 Gold</p>
+
                     <button id="foodBtn">Buy Food</button>
+
                 </div>
+
 
             </div>
             <div class="statsContainer">
@@ -115,8 +118,77 @@
             <div id="directionBox">Direction: </div>
         </div>
 
+        <script src="modules/inventory.js"></script>
+
         <script>
             let gold = 0;
+            let food = 0
+
+            
+            document.getElementById('foodBtn').addEventListener('click', async () => {
+                if (gold >= 100) {
+                    try {
+                        await addItemFetch('<%= user.username %>', 'food', 'food');
+                        gold -= 100;
+                        food += 1;
+                        document.getElementById('goldText').textContent = `Gold: ${gold}`;
+                    document.getElementById('foodText').textContent = `Food: ${food}`;
+                } catch (err) {
+                    console.error(err);
+                    alert('Purchase failed');
+                }
+            }});
+
+            document.getElementById('eatBtn').addEventListener('click', async () => {
+                if (food > 0) {
+                    try {
+                        await removeItemFetch('<%= user.username %>', 'food', 'food');
+                        food -= 1;
+                        document.getElementById('foodText').textContent = `Food: ${food}`;
+                    } catch (err) {
+                        console.error(err);
+                        alert('Failed to eat food');
+                    }
+                }
+            });
+
+            async function addItemFetch(owner, name, type) {
+                const body = new URLSearchParams({
+                    owner,
+                    name,
+                    type,
+                    type2: 'add'
+                });
+
+                const res = await fetch('/profile', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body.toString()
+                });
+
+                if (!res.ok) throw new Error('Request failed: ' + res.status);
+                return res; 
+            }
+
+            async function removeItemFetch(owner, name, type) {
+                const body = new URLSearchParams({
+                    owner,
+                    name,
+                    type,
+                    type2: 'remove'
+                });
+
+                const res = await fetch('/profile', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body.toString()
+                });
+
+                if (!res.ok) throw new Error('Request failed: ' + res.status);
+                return res;
+            }
 
             (function () {
                 const hungerFill = document.getElementById('hungerFill');
@@ -126,8 +198,8 @@
                 const startGameBtn = document.getElementById('startGame');
                 const foodBtn = document.getElementById('foodBtn');
                 const goldText = document.getElementById('goldText');
+
                 
-                let food = 0;
                 let hunger = 100;
                 const tickInterval = 1500;
 
@@ -150,16 +222,8 @@
                     hunger -= Math.floor(Math.random() * 5);
                     updateBar();
                 }
-                
 
-                foodBtn.addEventListener('click', () => {
-                    if (gold >= 100) {
-                        gold -= 100;
-                        food += 1;
-                        foodText.textContent = `Food: ${food}`;
-                        goldText.textContent = `Gold: ${gold}`;
-                    }
-                });
+
 
                 eatBtn.addEventListener('click', () => {
                     if (food > 0) {
